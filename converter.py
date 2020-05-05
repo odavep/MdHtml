@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
 from optparse import OptionParser
+from os.path import getctime
+from time import ctime
+from datetime import datetime
 from re import search, sub
 
 """Command line arguments"""
@@ -48,3 +51,16 @@ for filename in markdown_files:
         content_parsed.append(line)
     markdown_compiled.append({'name': filename, 'content': content_parsed})
 
+"""Template time"""
+for md in markdown_compiled:
+    header_copy = ''.join(header).replace("%title%", md['name'])\
+                                 .replace("%body%", ''.join(md['content']))
+    file_name = ""
+    if options.output_type.startswith("f"):
+        file_name = md['name'].replace('.md', '.html')
+    else:
+        time = datetime.strptime(
+            ctime(getctime(md['name'])), "%a %b %d %H:%M:%S %Y")
+        file_name = str(time).replace(" ", "@") + ".html"
+    with open(file_name, 'w') as file:
+        file.write(header_copy)
