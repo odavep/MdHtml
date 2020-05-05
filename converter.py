@@ -42,12 +42,23 @@ for filename in markdown_files:
     with open(filename, 'r') as file:
         file_lines = file.readlines()
     content_parsed = []
+    started_paragraphing = False
+
     for line in file_lines:
         # NOTE: When parsing regexes, use \g<number> for the object capture
-        # Sub rules
-        line = sub(r"#(.*)", r"<h1>\g<1></h1>", line)
-        line = sub(r"\*\*(.*)\*\*", r"<strong>\g<1></strong>", line)
-        line = sub(r"\*(.*)\*", r"<i>\g<1></i>", line)
+        # Rules
+        if search(r"^#(.*)", line):
+            line = sub(r"^#(.*)", r"<h1>\g<1></h1>", line)
+        elif line.strip() == '' and started_paragraphing:
+            line = "</p>\n"
+            started_paragraphing = False
+        else:
+            # simple text
+            line = sub(r"\*\*(.*)\*\*", r"<strong>\g<1></strong>", line)
+            line = sub(r"\*(.*)\*", r"<i>\g<1></i>", line)
+            if not started_paragraphing:
+                started_paragraphing = True
+                line = "<p>\n" + line
         content_parsed.append(line)
     markdown_compiled.append({'name': filename, 'content': content_parsed})
 
