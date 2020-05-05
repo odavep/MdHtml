@@ -64,3 +64,5 @@ for md in markdown_compiled:
         file_name = str(time).replace(" ", "@") + ".html"
     with open(file_name, 'w') as file:
         file.write(header_copy)
+
+print("Done")
