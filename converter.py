@@ -26,3 +26,9 @@ for file in args:
     else:
         print(file, "is not a markdown file, skipping")
 
+
+"""Read header"""
+header = []
+with open(options.header, 'r') as file:
+    header = file.readlines()
+
