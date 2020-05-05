@@ -2,6 +2,7 @@
 
 from optparse import OptionParser
 from re import search, sub
+
 """Command line arguments"""
 usage = "usage: %prog [options] file..."
 parser = OptionParser(usage=usage)
