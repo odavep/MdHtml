@@ -32,3 +32,19 @@ header = []
 with open(options.header, 'r') as file:
     header = file.readlines()
 
+"""Read and compile markdown to HTML"""
+markdown_compiled = []
+for filename in markdown_files:
+    file_lines = []
+    with open(filename, 'r') as file:
+        file_lines = file.readlines()
+    content_parsed = []
+    for line in file_lines:
+        # NOTE: When parsing regexes, use \g<number> for the object capture
+        # Sub rules
+        line = sub(r"#(.*)", r"<h1>\g<1></h1>", line)
+        line = sub(r"\*\*(.*)\*\*", r"<strong>\g<1></strong>", line)
+        line = sub(r"\*(.*)\*", r"<i>\g<1></i>", line)
+        content_parsed.append(line)
+    markdown_compiled.append({'name': filename, 'content': content_parsed})
+
