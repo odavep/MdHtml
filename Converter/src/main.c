@@ -27,13 +27,14 @@ string compile_line(string line, size_t size_of_line)
     sprintf(untag, "</h%d>", depth);
 
     // allocate buffer with extra 9 characters for the tags
-    compiled_line = malloc(sizeof(*compiled_line) * (size_of_line + 9));
+    compiled_line = malloc(sizeof(*compiled_line) *
+                           (size_of_line + tag_size + untag_size));
     // write h1 to start of compiled_line
-    strncpy(compiled_line, "<h1>", 4);
+    strncpy(compiled_line, tag, tag_size);
     // write the rest of the line to the compiled_line
-    strncpy(compiled_line + 4, line + 1, size_of_line - 1);
+    strncpy(compiled_line + tag_size, line + depth, size_of_line);
     // write the end tags
-    strncpy(compiled_line + size_of_line + 3, "</h1>", 5);
+    strncpy(compiled_line + size_of_content + tag_size, untag, untag_size);
   }
 
   else
