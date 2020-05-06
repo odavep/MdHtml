@@ -19,4 +19,15 @@ int main(int argc, char *argv[])
       puts(compile_line(argv[1], strnlen(argv[1], 1024), "<stdin>"));
     }
   }
+
+  else
+  {
+    while (1)
+    {
+      printf("> ");
+      char *buf = malloc(sizeof(*buf) * 1024);
+      fgets(buf, 1024, stdin);
+      puts(compile_line(buf, 1024, "<stdin>"));
+    }
+  }
 }
