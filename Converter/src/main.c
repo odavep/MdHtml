@@ -9,7 +9,8 @@ string compile_line(string line, size_t size_of_line)
   string compiled_line;
   if (line[0] == '#')
   {
-    // title
+    // Compile a header
+
     // allocate buffer with extra 9 characters for the tags
     compiled_line = malloc(sizeof(*compiled_line) * (size_of_line + 9));
     // write h1 to start of compiled_line
