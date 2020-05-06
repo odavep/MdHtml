@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void test_header_depths(void)
+void test_compile_line_header_depth(void)
 {
   const int test_size = 5;
   string test_strings[] = {"Header", "#Header", "##Header", "#Header#",

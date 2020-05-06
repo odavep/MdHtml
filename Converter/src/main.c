@@ -11,7 +11,8 @@ int main(int argc, char *argv[])
     if (strncmp(argv[1], "--test", 7) == 0)
     {
       // run tests
-      test_header_depths();
+      fputs("Running header test (how does compile_string handle # headers?)\n", stderr);
+      test_compile_line_header_depth();
     }
   }
 }
