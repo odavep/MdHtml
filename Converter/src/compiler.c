@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void compile_plain_text(string dest, string src, size_t size_of_line,
+void compile_inner_text(string dest, string src, size_t size_of_line,
                         string line_or_source)
 {
   /* cursor is the current index on the dest pointer
@@ -140,7 +140,7 @@ string compile_line(string line, size_t size_of_line, string line_or_source)
   {
     // Assume standard text
     compiled_line = malloc(sizeof(*compiled_line) * size_of_line * 2);
-    compile_plain_text(compiled_line, line, size_of_line, line_or_source);
+    compile_inner_text(compiled_line, line, size_of_line, line_or_source);
   }
 
   return compiled_line;
