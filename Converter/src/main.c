@@ -16,7 +16,9 @@ int main(int argc, char *argv[])
     }
     else
     {
-      puts(compile_line(argv[1], strnlen(argv[1], 1024), "<stdin>"));
+      string output = (compile_line(argv[1], strnlen(argv[1], 1024), "<stdin>"));
+      puts(output);
+      free(output);
     }
   }
 
@@ -27,7 +29,9 @@ int main(int argc, char *argv[])
       printf("> ");
       char *buf = malloc(sizeof(*buf) * 1024);
       fgets(buf, 1024, stdin);
-      puts(compile_line(buf, 1024, "<stdin>"));
+      string output = (compile_line(buf, 1024, "<stdin>"));
+      puts(output);
+      free(output);
     }
   }
 }
