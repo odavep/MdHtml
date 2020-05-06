@@ -15,7 +15,7 @@ string compile_line(string line, size_t size_of_line)
 
     // Get the level of header (h1, h2, etc)
     int depth;
-    for (depth = 1; line[depth] == '#'; ++depth);
+    for (depth = 1; line[depth] == '#'; ++depth) continue;
     size_of_content = size_of_line - depth; // remove hashes
 
     // Generate the header tags based on depth
@@ -34,7 +34,8 @@ string compile_line(string line, size_t size_of_line)
     // write the rest of the line to the compiled_line
     strncpy(compiled_line + tag_size, line + depth, size_of_line);
     // write the end tags
-    strncpy(compiled_line + size_of_content + tag_size, close_tag, close_tag_size);
+    strncpy(compiled_line + size_of_content + tag_size, close_tag,
+            close_tag_size);
   }
 
   else
