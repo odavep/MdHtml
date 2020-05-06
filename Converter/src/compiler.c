@@ -133,7 +133,7 @@ string compile_line(string line, size_t size_of_line, string line_or_source)
     // write the rest of the line to the compiled_line
     strncpy(compiled_line + tag_size, line + depth, size_of_line);
     // write the end tags
-    strncpy(compiled_line + size_of_content + tag_size, close_tag,
+    strncpy(compiled_line + size_of_content + tag_size - 1, close_tag,
             close_tag_size + 1);
   }
   else
