@@ -20,21 +20,21 @@ string compile_line(string line, size_t size_of_line)
 
     // Generate the header tags based on depth
     const int tag_size = 4;
-    const int untag_size = 5;
+    const int close_tag_size = 5;
     string tag = malloc(sizeof(*tag) * 5);
     sprintf(tag, "<h%d>", depth);
-    string untag = malloc(sizeof(*untag) * 6);
-    sprintf(untag, "</h%d>", depth);
+    string close_tag = malloc(sizeof(*close_tag) * 6);
+    sprintf(close_tag, "</h%d>", depth);
 
     // allocate buffer with extra 9 characters for the tags
     compiled_line = malloc(sizeof(*compiled_line) *
-                           (size_of_line + tag_size + untag_size));
+                           (size_of_line + tag_size + close_tag_size));
     // write h1 to start of compiled_line
     strncpy(compiled_line, tag, tag_size);
     // write the rest of the line to the compiled_line
     strncpy(compiled_line + tag_size, line + depth, size_of_line);
     // write the end tags
-    strncpy(compiled_line + size_of_content + tag_size, untag, untag_size);
+    strncpy(compiled_line + size_of_content + tag_size, close_tag, close_tag_size);
   }
 
   else
