@@ -14,5 +14,9 @@ int main(int argc, char *argv[])
       fputs("Running header test (how does compile_string handle # headers?)\n", stderr);
       test_compile_line_header_depth();
     }
+    else
+    {
+      puts(compile_line(argv[1], strnlen(argv[1], 1024), "<stdin>"));
+    }
   }
 }
