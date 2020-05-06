@@ -136,6 +136,19 @@ string compile_line(string line, size_t size_of_line, string line_or_source)
     strncpy(compiled_line + size_of_content + tag_size - 1, close_tag,
             close_tag_size + 1);
   }
+  // Compile a list item
+  else if (line[0] == '-')
+  {
+    string tag = "<li>";
+    string close_tag = "</li>";
+    size_of_content = size_of_line - 1;
+
+    compiled_line = malloc(sizeof(*compiled_line) * (size_of_line + 10));
+    strncpy(compiled_line, tag, 4);
+    strncpy(compiled_line + 4, line + 1, size_of_line);
+    strncpy(compiled_line + size_of_content + 4, close_tag, 5);
+  }
+  // Compile a standard piece of text
   else
   {
     // Assume standard text
