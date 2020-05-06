@@ -7,9 +7,24 @@ typedef char *string;
 string compile_line(string line, size_t size_of_line)
 {
   string compiled_line;
+  size_t size_of_content;
+
   if (line[0] == '#')
   {
     // Compile a header
+
+    // Get the level of header (h1, h2, etc)
+    int depth;
+    for (depth = 1; line[depth] == '#'; ++depth);
+    size_of_content = size_of_line - depth; // remove hashes
+
+    // Generate the header tags based on depth
+    const int tag_size = 4;
+    const int untag_size = 5;
+    string tag = malloc(sizeof(*tag) * 5);
+    sprintf(tag, "<h%d>", depth);
+    string untag = malloc(sizeof(*untag) * 6);
+    sprintf(untag, "</h%d>", depth);
 
     // allocate buffer with extra 9 characters for the tags
     compiled_line = malloc(sizeof(*compiled_line) * (size_of_line + 9));
