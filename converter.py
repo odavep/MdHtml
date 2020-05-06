@@ -56,6 +56,7 @@ for filename in markdown_files:
             # simple text
             line = sub(r"\*\*(.*)\*\*", r"<strong>\g<1></strong>", line)
             line = sub(r"\*(.*)\*", r"<i>\g<1></i>", line)
+            line = sub(r"^-(.*)", r"<li>\g<1></li>", line)
             if not started_paragraphing:
                 started_paragraphing = True
                 line = "<p>\n" + line
