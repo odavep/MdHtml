@@ -17,7 +17,7 @@ void test_compile_line_header_depth(void)
     const string expected_result = expected_results[i];
     const int length_of_test = strnlen(test_string, 512);
     const int length_of_expected = strnlen(expected_result, 512);
-    const string test_result = compile_line(test_string, length_of_test + 1, "<test>");
+    const string test_result = compile_line(test_string, length_of_test, "<test>");
 
     fprintf(stderr, "Testing %s => %s\n", test_string, expected_result);
     fprintf(stderr, "Result: %s\n\n", test_result);
