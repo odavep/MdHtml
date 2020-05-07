@@ -24,12 +24,19 @@ int main(int argc, char *argv[])
 
   else
   {
+    int i;
+    char *buf;
     while (1)
     {
+
       printf("> ");
-      char *buf = malloc(sizeof(*buf) * 1024);
+      buf = malloc(sizeof(*buf) * 1024);
       fgets(buf, 1024, stdin);
-      string output = (compile_line(buf, 1024, "<stdin>"));
+
+      for (i = 0; buf[i] != '\n'; ++i) continue;
+      buf[i] = '\0'; // terminate
+
+      string output = (compile_line(buf, strlen(buf), "<stdin>"));
       puts(output);
       free(output);
     }
