@@ -9,6 +9,18 @@ int find_string(string src, string query, size_t sz_src, size_t sz_query)
   return j;
 }
 
+bool is_token(char c)
+{
+  bool token_check = false;
+  for (int i = 0; i < N_TOKENS; ++i)
+    if (c == TOKENS[i])
+    {
+      token_check = true;
+      break;
+    }
+  return token_check;
+}
+
 void compile_inner_text(string dest, string src, size_t sz_src,
                         string line_or_source)
 {
