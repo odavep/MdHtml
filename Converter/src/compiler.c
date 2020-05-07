@@ -109,8 +109,7 @@ string compile_line(string line, size_t size_of_line, string line_or_source)
   string compiled_line;
   size_t size_of_content;
 
-  // Compile a header
-  if (line[0] == '#')
+  if (line[0] == '#') // Compile a header
   {
     // Get the level of header (h1, h2, etc)
     int depth;
@@ -136,8 +135,7 @@ string compile_line(string line, size_t size_of_line, string line_or_source)
     strncpy(compiled_line + size_of_content + tag_size - 1, close_tag,
             close_tag_size + 1);
   }
-  // Compile a list item
-  else if (line[0] == '-')
+  else if (line[0] == '-') // Compile a list item
   {
     string tag = "<li>";
     string close_tag = "</li>";
@@ -148,10 +146,8 @@ string compile_line(string line, size_t size_of_line, string line_or_source)
     strncpy(compiled_line + 4, line + 1, size_of_line);
     strncpy(compiled_line + size_of_content + 4, close_tag, 5);
   }
-  // Compile a standard piece of text
-  else
+  else // Compile a standard piece of text
   {
-    // Assume standard text
     compiled_line = malloc(sizeof(*compiled_line) * size_of_line * 2);
     compile_inner_text(compiled_line, line, size_of_line, line_or_source);
   }
