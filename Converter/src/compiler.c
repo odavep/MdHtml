@@ -120,8 +120,8 @@ string compile_line(string line, size_t size_of_line, string line_or_source)
     const int tag_size = 4;
     const int close_tag_size = 5;
     string tag = malloc(sizeof(*tag) * 5);
-    sprintf(tag, "<h%d>", depth);
     string close_tag = malloc(sizeof(*close_tag) * 6);
+    sprintf(tag, "<h%d>", depth);
     sprintf(close_tag, "</h%d>", depth);
 
     // allocate buffer with extra 9 characters for the tags
