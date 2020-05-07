@@ -2,7 +2,14 @@
 #include <stdio.h>
 #include <string.h>
 
-void compile_inner_text(string dest, string src, size_t size_of_line,
+int find_string(string src, string query, size_t sz_src, size_t sz_query)
+{
+  int j = 0;
+  while ((j < (sz_src - sz_query)) && (strncmp(query, src + j, sz_query))) ++j;
+  return j;
+}
+
+void compile_inner_text(string dest, string src, size_t sz_src,
                         string line_or_source)
 {
   /* cursor is the current index on the dest pointer
