@@ -28,7 +28,7 @@ void compile_inner_text(string dest, string src, size_t sz_src,
    * lower represents the last tag character before content
    * upper represents the first tag character after content
    *
-   * size_of_content is self explanatory (size of content in tags)
+   * size_of_content is self explanatory (size of content delimited by tags)
    * tag_size is the compiled size of a tag
    * md_tag_size is the precompiled size of a tag
    *

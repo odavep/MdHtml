@@ -11,17 +11,18 @@ int main(int argc, char *argv[])
     if (strncmp(argv[1], "--test", 7) == 0)
     {
       // run tests
-      fputs("Running header test (how does compile_string handle # headers?)\n", stderr);
+      fputs("Running header test (how does compile_string handle # headers?)\n",
+            stderr);
       test_compile_line_header_depth();
     }
     else
     {
-      string output = (compile_line(argv[1], strnlen(argv[1], 1024), "<stdin>"));
+      string output =
+          (compile_line(argv[1], strnlen(argv[1], 1024), "<stdin>"));
       puts(output);
       free(output);
     }
   }
-
   else
   {
     int i;
