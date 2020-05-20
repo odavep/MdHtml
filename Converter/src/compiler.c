@@ -39,73 +39,81 @@ void compile_inner_text(string dest, string src, size_t sz_src,
    */
   int cursor, lower, upper;
   size_t size_of_content, tag_size, md_tag_size;
-  string tag, close_tag;
+  string md_tag, tag, close_tag;
   int i, j;
 
   lower = 0;
   upper = 0;
   cursor = 0;
 
-  for (i = 0; i < size_of_line; ++i)
+  for (i = 0; i < sz_src; ++i)
   {
-    // Asterisk routine
-    if (src[i] == '*')
+    if (is_token(src[i]))
     {
-      j = i + 1;
-
-      // Twin asterisks
-      if (src[i + 1] == '*')
+      // Information for each tag
+      // NOTE: Here's where you add new text tags
+      switch (src[i])
       {
-        tag = "<strong>";
-        close_tag = "</strong>";
-        tag_size = 8;
-        md_tag_size = 2;
-
-        // Make j the cursor seeking for the matching asterisk pair
-        while ((j < size_of_line - 1) && (src[j] != '*' || src[j + 1] != '*'))
-          ++j;
-
-        // if found
-        if (src[j] == '*')
+      case '*': {
+        // Twin asterisks
+        if (src[i + 1] == '*')
         {
-          lower = i + 1;
-          upper = j;
+          md_tag = "**";
+          tag = "<strong>";
+          close_tag = "</strong>";
+          tag_size = 8;
+          md_tag_size = 2;
         }
+        // one asterisk
         else
         {
-          // ERROR
-          fprintf(stderr, "No matching asterisk for %s:%d\n", line_or_source,
-                  i);
-          exit(-1);
+          md_tag = "*";
+          tag = "<i>";
+          close_tag = "</i>";
+          tag_size = 3;
+          md_tag_size = 1;
         }
+        break;
       }
-
-      // one asterisk
-      else
-      {
-        tag = "<i>";
-        close_tag = "</i>";
+      case '_': {
+        tag = "<u>";
+        close_tag = "</u>";
+        md_tag = "_";
         tag_size = 3;
         md_tag_size = 1;
-        while ((j < size_of_line) && (src[j] != '*')) ++j;
-
-        if (src[j] == '*')
-        {
-          lower = i;
-          upper = j;
-        }
-        else
-        {
-          // error, no matching asterisk
-          fprintf(stderr, "No matching asterisk for %s:%d\n", line_or_source,
-                  i);
-          exit(-1);
-        }
+        break;
+      }
+      case '~': {
+        tag = "<s>";
+        close_tag = "</s>";
+        md_tag = "~";
+        tag_size = 3;
+        md_tag_size = 1;
+        break;
+      }
+      default:
+        break;
       }
 
-      /*
-       * Copy all
-       */
+      // find the corresponding markdown tag, and report errors
+      j = find_string(src + i + md_tag_size, md_tag, sz_src - i - md_tag_size,
+                      md_tag_size);
+      j += i + md_tag_size;
+
+      // error checking the token
+      if (src[j] == md_tag[0])
+      {
+        lower = i + md_tag_size - 1;
+        upper = j;
+      }
+      else
+      {
+        // error, no matching asterisk
+        fprintf(stderr, "No corresponding %s for %s:%d\n", md_tag,
+                line_or_source, i + md_tag_size);
+        exit(0);
+      }
+
       size_of_content = upper - lower - 1;
       strncpy(dest + cursor, tag, tag_size);
       strncpy(dest + cursor + tag_size, src + lower + 1, size_of_content);
