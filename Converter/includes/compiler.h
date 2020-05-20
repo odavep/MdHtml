@@ -5,8 +5,8 @@
 #include <stdbool.h>
 
 typedef char *string;
-const static char TOKENS[] = {'*', '_'};
-const static size_t N_TOKENS = 2;
+const static char TOKENS[] = {'*', '_', '~'};
+const static size_t N_TOKENS = 3;
 
 /* Compile markdown line to HTML line */
 string compile_line(string line, size_t sz_line, string line_or_source);
