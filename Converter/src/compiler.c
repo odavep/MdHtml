@@ -95,6 +95,11 @@ void compile_inner_text(string dest, string src, size_t sz_src,
         break;
       }
 
+      if (src[i + md_tag_size] == '\0')
+      {
+        strncpy(dest, src + i, md_tag_size);
+        break;
+      }
       // find the corresponding markdown tag, and report errors
       j = find_string(src + i + md_tag_size, md_tag, sz_src - i - md_tag_size,
                       md_tag_size);
