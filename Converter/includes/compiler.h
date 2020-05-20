@@ -15,4 +15,7 @@ int find_string(string src, string query, size_t sz_src, size_t sz_query);
 /* Check if a given character is a text token*/
 bool is_token(char c);
 
+/* Given a file, get the lines */
+char **get_lines(char *filename);
+
 #endif // __COMPILER_H_

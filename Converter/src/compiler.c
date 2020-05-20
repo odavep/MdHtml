@@ -1,4 +1,5 @@
 #include "../includes/compiler.h"
+#include "../includes/array.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -188,4 +189,33 @@ string compile_line(string line, size_t size_of_line, string line_or_source)
   }
 
   return compiled_line;
+}
+
+char **get_lines(char *filename)
+{
+  FILE *fp;
+  char **lines, *line;
+  array_t *arr;
+  int i;
+
+  array_init(arr);
+
+  fp = fopen(filename, "r");
+
+  while(!feof(fp))
+  {
+    // Get line
+    line = malloc(sizeof(*line) * 1024);
+    fgets(line, 1024, fp);
+
+    // Terminate line
+    for (i = 0; line[i] != '\n'; ++i);
+    line[i] = '\0';
+    array_append(arr, line);
+  }
+
+  lines = (char**)arr->data;
+  free(arr);
+
+  return lines;
 }
