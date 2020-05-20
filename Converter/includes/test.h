@@ -3,6 +3,6 @@
 
 // Test methods to run
 
-void test_compile_line_header_depth(void);
+void compile_line_header_depth(void);
 
 #endif // __TEST_H_

@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
       // run tests
       fputs("Running header test (how does compile_string handle # headers?)\n",
             stderr);
-      test_compile_line_header_depth();
+      compile_line_header_depth();
     }
     else
     {
