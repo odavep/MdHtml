@@ -21,32 +21,6 @@ bool is_token(char c)
   return token_check;
 }
 
-char **get_token_pair(char c)
-{
-  if (is_token(c))
-  {
-    char **pair = malloc(sizeof(*pair) * 2);
-    int i;
-    switch(c)
-    {
-    case '*':
-      i = 0;
-      break;
-    case '_':
-      i = 1;
-      break;
-    case '~':
-      i = 2;
-      break;
-    }
-    pair[0] = TOKENS_COMPILED[i];
-    pair[1] = TOKENS_CLOSE_COMPILED[i];
-    return pair;
-  }
-
-  return NULL;
-}
-
 void compile_inner_text(string dest, string src, size_t sz_src,
                         string line_or_source)
 {
@@ -76,20 +50,49 @@ void compile_inner_text(string dest, string src, size_t sz_src,
   {
     if (is_token(src[i]))
     {
-      char **pair = get_token_pair(src[i]);
-      tag = pair[0];
-      close_tag = pair[1];
-      md_tag = &src[i];
-      md_tag_size = 1;
-      tag_size = 3;
       // Information for each tag
-      if (src[i] == '*' && src[i + 1] == '*')
+      // NOTE: Here's where you add new text tags
+      switch (src[i])
       {
-        md_tag = "**";
-        tag = "<strong>";
-        close_tag = "</strong>";
-        tag_size = 8;
-        md_tag_size = 2;
+      case '*': {
+        // Twin asterisks
+        if (src[i + 1] == '*')
+        {
+          md_tag = "**";
+          tag = "<strong>";
+          close_tag = "</strong>";
+          tag_size = 8;
+          md_tag_size = 2;
+        }
+        // one asterisk
+        else
+        {
+          md_tag = "*";
+          tag = "<i>";
+          close_tag = "</i>";
+          tag_size = 3;
+          md_tag_size = 1;
+        }
+        break;
+      }
+      case '_': {
+        tag = "<u>";
+        close_tag = "</u>";
+        md_tag = "_";
+        tag_size = 3;
+        md_tag_size = 1;
+        break;
+      }
+      case '~': {
+        tag = "<s>";
+        close_tag = "</s>";
+        md_tag = "~";
+        tag_size = 3;
+        md_tag_size = 1;
+        break;
+      }
+      default:
+        break;
       }
 
       // find the corresponding markdown tag, and report errors
@@ -119,7 +122,6 @@ void compile_inner_text(string dest, string src, size_t sz_src,
       cursor +=
           tag_size + size_of_content + tag_size + 1; // shift after operation
       i += size_of_content + (2 * md_tag_size) - 1;
-      free(pair);
     }
     else
     {
