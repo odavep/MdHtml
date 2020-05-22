@@ -1,7 +1,7 @@
 ## Metadata
 cmake_minimum_required(VERSION 3.10.2)
 
-set(THIS converter) # Name of project
+set(THIS mdhtml) # Name of project
 project(${THIS} C)
 
 set(CMAKE_C_COMPILER clang) # compiler
