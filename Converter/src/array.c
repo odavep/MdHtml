@@ -1,12 +1,12 @@
 #include "../includes/array.h"
 #include <malloc.h>
 
-void array_init(array_t *arr)
+void array_init(array_t **arr)
 {
-  arr = malloc(sizeof(*arr));
-  arr->sz_used = 0;
-  arr->sz_allocated = 8;
-  arr->data = malloc(arr->sz_allocated);
+  (*arr) = malloc(sizeof(*arr));
+  (*arr)->sz_used = 0;
+  (*arr)->sz_allocated = 8;
+  (*arr)->data = malloc((*arr)->sz_allocated);
 }
 
 void array_append(array_t *arr, void *data)
