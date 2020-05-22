@@ -2,6 +2,7 @@
 #define __COMPILER_H_
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <stdbool.h>
 
 typedef char *string;
@@ -15,7 +16,9 @@ int find_string(string src, string query, size_t sz_src, size_t sz_query);
 /* Check if a given character is a text token*/
 bool is_token(char c);
 
-/* Given a file, get the lines */
-char **get_lines(char *filename);
+/* Given a file, get number of lines */
+int nlines(FILE *fp);
+/* Given a file, compile the lines */
+string *compile_file(FILE *fp, string filename, int nlines);
 
 #endif // __COMPILER_H_

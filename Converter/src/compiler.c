@@ -1,6 +1,5 @@
 #include "../includes/compiler.h"
 #include "../includes/array.h"
-#include <stdio.h>
 #include <string.h>
 
 int find_string(string src, string query, size_t sz_src, size_t sz_query)
@@ -115,7 +114,7 @@ void compile_inner_text(string dest, string src, size_t sz_src,
       else
       {
         // error, no matching asterisk
-        fprintf(stderr, "No corresponding %s for %s:%d\n", md_tag,
+        fprintf(stderr, "No corresponding %s for %s:%lu\n", md_tag,
                 line_or_source, i + md_tag_size);
         exit(0);
       }
@@ -191,31 +190,49 @@ string compile_line(string line, size_t size_of_line, string line_or_source)
   return compiled_line;
 }
 
-char **get_lines(char *filename)
+int nlines(FILE *fp)
 {
-  FILE *fp;
-  char **lines, *line;
-  array_t *arr;
-  int i;
+  fseek(fp, 0, SEEK_SET);
+  int line_number = 0;
+  char ch;
 
-  array_init(arr);
-
-  fp = fopen(filename, "r");
-
-  while(!feof(fp))
+  while (!feof(fp))
   {
-    // Get line
+    if (ch == '\n')
+      ++line_number;
+    ch = fgetc(fp);
+  }
+  return line_number;
+}
+
+string *compile_file(FILE *fp, string filename, int nlines)
+{
+  fseek(fp, 0, SEEK_SET);
+  string current_header, compiled_line, line, *lines;
+  int i, line_num;
+  size_t sz_filename;
+
+  current_header = malloc(sizeof(*current_header) * sz_filename);
+  strcpy(current_header, filename);
+
+  sz_filename = strlen(filename);
+  lines = malloc(sizeof(*lines) * nlines);
+
+  for (line_num = 1; (line_num - 1) < nlines; ++line_num)
+  {
     line = malloc(sizeof(*line) * 1024);
     fgets(line, 1024, fp);
 
-    // Terminate line
-    for (i = 0; line[i] != '\n'; ++i);
+    // Null terminate line
+    for (i = 0; line[i] != '\n' && line[i] != '\0'; ++i)
+      ;
     line[i] = '\0';
-    array_append(arr, line);
-  }
+    sprintf(current_header + sz_filename, ":%d", line_num);
 
-  lines = (char**)arr->data;
-  free(arr);
+    // Compile and append line
+    compiled_line = compile_line(line, strlen(line), current_header);
+    lines[line_num - 1] = compiled_line;
+  }
 
   return lines;
 }
