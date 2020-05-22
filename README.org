@@ -1,18 +1,18 @@
 * MdHtml
-Markdown to HTML converter in Python and C.
+Markdown to HTML converter in C.
 * Why?
-A fun task to try and grapple with, especially in C as a kind of pre-compiler
-stage project (similar to precalc in Math classes).
-I do actually require a markdown to HTML converter for my website, and instead
-of loading and installing a very large and mostly obsolete package just for this
-task I think I could try making my own.
+A fun task to try out, especially in C. I'm considering this project as a kind
+of pre-compiler stage task. I do actually require a markdown to HTML converter
+for my website, and instead of installing pandoc or something, I could try and
+make my own.
 * Structure
 /converter.py/ is the file where I write templating code to think out what
 features I want. It's good to use, not necessarily the fastest or cleanest but
 it gets the job done. Most importantly, it's a minimum working product for use
 straight away.
 
-The /Converter/ cmake project is my C implementation of this transpiler system.
-It uses a lot of techniques that I have learned from the dragon book, and I'm
-kinda using it as an exercise in lexers and simple tokenizers, compiling content
-from one format to another.
+
+The /Converter/ project is the main source directory for my C implementation.
+Currently, it's capable of converting simple markdown documents though it is not
+capable of generating documents via templates. It's a bit of a mess, which I'll
+start documenting over the next few days.
