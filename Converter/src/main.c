@@ -4,42 +4,90 @@
 #include <stdio.h>
 #include <string.h>
 
+string convert_filename(string filename)
+{
+  size_t sz_filename = strnlen(filename, 1024);
+  int cur = sz_filename - 3;
+  string new_filename = malloc(sizeof(*new_filename) * (sz_filename + 2));
+
+  strncpy(new_filename, filename, sz_filename - 3);
+  strncpy(new_filename + cur, ".html", 5);
+
+  return new_filename;
+}
+
 int main(int argc, char *argv[])
 {
   if (argc > 1)
-  {
-    if (strncmp(argv[1], "--test", 7) == 0)
+  { // Test or file
+    if (strcmp(argv[1], "--test") == 0)
     {
-      // run tests
-      fputs("Running header test (how does compile_string handle # headers?)\n",
-            stderr);
-      compile_line_header_depth();
+      fprintf(stderr, "Running tests\n");
+      exit(0);
+    }
+
+    bool free_output = false;
+    string filename;
+    string output;
+
+    if (argc >= 3)
+    {
+      filename = argv[1];
+      output = argv[2];
+    }
+    else if (argc == 2)
+    {
+      filename = argv[1];
+      output = convert_filename(filename);
+      free_output = true;
     }
     else
     {
-      string output =
-          (compile_line(argv[1], strnlen(argv[1], 1024), "<stdin>"));
-      puts(output);
-      free(output);
+      fputs("No inputs given for files\n", stderr);
+      exit(1);
+    }
+
+    FILE *fp = fopen(filename, "r");
+    if (fp != NULL)
+    {
+      int sz_lines = nlines(fp);
+      printf("Lines: %d\n", sz_lines);
+      string *compiled_lines = compile_file(fp, filename, sz_lines);
+      puts("Compiled document");
+      fclose(fp);
+
+      fp = fopen(output, "w");
+      for (int line = 0; line < sz_lines; ++line)
+      {
+        fprintf(fp, "%s\n", compiled_lines[line]);
+        free(compiled_lines[line]);
+      }
+      fclose(fp);
+
+
+      printf("Written to file (%s)\n", output);
+      if (free_output)
+        free(output);
+      free(compiled_lines);
+    }
+    else
+    {
+      fprintf(stderr, "%s is not a file\n", filename);
+      exit(1);
     }
   }
   else
-  {
-    int i;
-    char *buf;
-    while (1)
+  { // Repl
+    while (true)
     {
-
-      printf("> ");
-      buf = malloc(sizeof(*buf) * 1024);
-      fgets(buf, 1024, stdin);
-
-      for (i = 0; buf[i] != '\n'; ++i) continue;
-      buf[i] = '\0'; // terminate
-
-      string output = (compile_line(buf, strlen(buf), "<stdin>"));
-      puts(output);
-      free(output);
+      string input, compiled_input;
+      input = malloc(sizeof(*input) * 1024);
+      fputs("> ", stdout);
+      fgets(input, 1024, stdin);
+      compiled_input = compile_line(input, strlen(input), "<stdin>");
+      fputs(compiled_input, stdout);
+      free(input);
+      free(compiled_input);
     }
   }
 }
