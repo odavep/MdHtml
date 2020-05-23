@@ -14,5 +14,6 @@ enum Type
 };
 
 std::string compile_line(const char *raw);
+std::string compile_file(const char *filename);
 
 #endif // __COMPILER_H_

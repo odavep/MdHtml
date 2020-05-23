@@ -1,4 +1,7 @@
 #include "../includes/compiler.hpp"
+#include <vector>
+#include <iostream>
+#include <fstream>
 #include <regex>
 
 static const unsigned short N_ITEMS = 4;
@@ -36,6 +39,48 @@ std::string compile_line(const char *raw)
   {
     result = std::regex_replace(result, REGEXES[i], REPLACEMENTS[i]);
   }
+
+  return result;
+}
+
+std::string compile_file(const char *filename)
+{
+  std::vector<std::string> v;
+  std::ifstream fp(filename);
+
+  if (!fp.is_open())
+  {
+    std::cerr << "File " << filename << " not found" << std::endl;
+    exit(1);
+  }
+
+  bool paragraphing = false;
+  std::string line;
+  for (int i = 0; std::getline(fp, line) ; ++i) {
+    std::cout << "Compiled " << i + 1 << " of " << filename << "\n";
+    if (line[0] == '#' || line[0] == '-')
+    {
+      if (paragraphing)
+        v.push_back("</p>");
+      paragraphing = false;
+    }
+    else if (line[0] == '\0' || line[0] == '\n')
+    {
+      if (paragraphing)
+        v.push_back("</p>");
+      else
+        v.push_back("<p>");
+      paragraphing = !paragraphing;
+      continue;
+    }
+
+    v.push_back(compile_line(line.c_str()));
+  }
+  fp.close();
+
+  std::string result = "";
+  for (auto i : v)
+    result += i + "\n";
 
   return result;
 }
