@@ -20,7 +20,7 @@ std::string compile_line(const char *raw)
   {
     // Get depth of header
     int depth;
-    for (depth = 0; (*(raw + depth)) == '#'; ++depth);
+    for (depth = 0; (*(raw + depth)) == '#' && depth < 7; ++depth);
 
     asprintf(&r, "<h%d>%s</h%d>", depth, raw + depth, depth);
     return r;
