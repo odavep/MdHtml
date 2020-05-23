@@ -5,8 +5,8 @@
 
 enum Type
 {
-  Italic,
   Bold,
+  Italic,
   Underline,
   StrikeThrough,
   ListItem,
