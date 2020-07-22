@@ -1,5 +1,7 @@
-* MdHtml
-Markdown to HTML converter in C.
+#+TITLE: MDHtml
+#+DESCRIPTION: Markdown to HTML converter in C.
+
+This is now deprecated, I've learnt a lot from this project and I'm going to refine it in my new one.
 * Why?
 A fun task to try out, especially in C. I'm considering this project as a kind
 of pre-compiler stage task. I do actually require a markdown to HTML converter
